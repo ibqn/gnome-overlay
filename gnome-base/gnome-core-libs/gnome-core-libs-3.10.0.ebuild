@@ -29,8 +29,8 @@ RDEPEND="
 	>=gnome-base/libgnomekbd-3.6
 	>=x11-libs/startup-notification-0.12
 
-	>=gnome-base/gvfs-1.16.0
-	>=gnome-base/dconf-0.16.0
+	>=gnome-base/gvfs-1.18.0
+	>=gnome-base/dconf-0.18.0
 
 	|| (
 		>=media-libs/gstreamer-0.10.36:0.10
