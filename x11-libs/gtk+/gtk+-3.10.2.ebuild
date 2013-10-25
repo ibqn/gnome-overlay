@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils flag-o-matic gnome.org gnome2-utils multilib virtualx
+inherit autotools eutils flag-o-matic gnome.org gnome2-utils multilib virtualx
 
 DESCRIPTION="Gimp ToolKit +"
 HOMEPAGE="http://www.gtk.org/"
@@ -121,6 +121,10 @@ src_prepare() {
 		strip_builddir SRC_SUBDIRS demos Makefile.am
 		strip_builddir SRC_SUBDIRS demos Makefile.in
 	fi
+
+	# automake 1.13 is hard-coded in bundled configure script. Running
+	# autoreconf to regenerate.
+	eautoreconf
 }
 
 src_configure() {
