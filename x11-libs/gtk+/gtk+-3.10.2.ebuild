@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils flag-o-matic gnome.org gnome2-utils multilib virtualx
+inherit autotools eutils flag-o-matic gnome.org gnome2-utils multilib virtualx
 
 DESCRIPTION="Gimp ToolKit +"
 HOMEPAGE="http://www.gtk.org/"
@@ -91,7 +91,7 @@ strip_builddir() {
 	shift
 	local directory=$1
 	shift
-	sed -e "s/^\(${rule} =.*\)${directory}\(.*\)$/\1\2/" -i $@ \
+	sed -e "s/^\(${rule} =.*\) ${directory} \(.*\)$/\1 \2/" -i $@ \
 		|| die "Could not strip director ${directory} from build."
 }
 
@@ -114,6 +114,9 @@ src_prepare() {
 		# don't waste time building tests
 		strip_builddir SRC_SUBDIRS tests Makefile.am
 		strip_builddir SRC_SUBDIRS tests Makefile.in
+
+		strip_builddir SRC_SUBDIRS testsuite Makefile.am
+		strip_builddir SRC_SUBDIRS testsuite Makefile.in
 	fi
 
 	if ! use examples; then
@@ -121,6 +124,10 @@ src_prepare() {
 		strip_builddir SRC_SUBDIRS demos Makefile.am
 		strip_builddir SRC_SUBDIRS demos Makefile.in
 	fi
+
+	# automake 1.13 is hard-coded in bundled configure script. Running
+	# autoreconf to regenerate.
+	eautoreconf
 }
 
 src_configure() {
